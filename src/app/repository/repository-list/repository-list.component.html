@@ -1,0 +1,50 @@
+<div class="container py-4">
+  <h1 class="mb-4">Repositorios</h1>
+
+  @if (loading) {
+    <div class="text-center py-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Cargando...</span>
+      </div>
+    </div>
+  }
+
+  @if (error) {
+    <div class="alert alert-danger" role="alert">
+      Error al cargar los repositorios. Por favor intenta de nuevo.
+    </div>
+  }
+
+  @if (!loading && !error && repositories.length === 0) {
+    <div class="alert alert-info">
+      No hay repositorios disponibles.
+    </div>
+  }
+
+  @if (!loading && !error && repositories.length > 0) {
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+      @for (repo of repositories; track repo.id) {
+        <div class="col">
+          <!-- routerLink navega a /repositories/:id -->
+          <div class="repo-card" [routerLink]="['/repositories', repo.id]">
+            <div class="repo-card-header">
+              <svg class="repo-icon" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M3 3h18v18H3zM9 3v18M3 9h6"/>
+              </svg>
+              <span class="repo-name">{{ repo.name }}</span>
+            </div>
+            <p class="repo-description">{{ repo.description }}</p>
+            <div class="repo-meta">
+              <span class="repo-lang">
+                <span class="lang-dot"></span>
+                {{ repo.language }}
+              </span>
+              <span class="repo-stars">⭐ {{ repo.stars }}</span>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>
