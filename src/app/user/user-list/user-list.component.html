@@ -1,0 +1,35 @@
+<!-- user-list.component.html -->
+<div class="container py-4">
+  <h1 class="mb-4">Usuarios GitHub</h1>
+
+  @if (loading) {
+    <div class="text-center py-5">
+      <div class="spinner-border text-primary" role="status"></div>
+    </div>
+  }
+
+  @if (error) {
+    <div class="alert alert-danger">Error al cargar los usuarios.</div>
+  }
+
+  @if (!loading && !error) {
+    <div class="row row-cols-1 row-cols-md-3 row-cols-lg-5 g-4">
+      @for (user of users; track user.id) {
+        <div class="col">
+          <div class="user-card" (click)="selectUser(user)"
+               [class.selected]="selectedUser?.id === user.id">
+            <img [src]="user.avatarUrl" [alt]="user.name" class="user-avatar"/>
+            <p class="user-name">{{ user.name }}</p>
+            <p class="user-username text-muted">@{{ user.username }}</p>
+            <span class="badge bg-secondary">{{ user.role }}</span>
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Punto 2: detalle debajo del listado via @Input -->
+    @if (selectedUser) {
+      <app-user-detail [user]="selectedUser" />
+    }
+  }
+</div>
