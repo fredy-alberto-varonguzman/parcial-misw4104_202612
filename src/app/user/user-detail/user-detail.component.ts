@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { User } from '../user';
 
 @Component({
@@ -9,4 +9,8 @@ import { User } from '../user';
 export class UserDetailComponent {
   @Input() user!: User;
 
+  onImgError(event: Event): void {
+    const img = event.target as HTMLImageElement;
+    img.style.display = 'none';
+  }
 }

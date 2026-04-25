@@ -1,0 +1,51 @@
+.devhub-navbar {
+  background-color: #0d1117;
+  padding: 0 2rem;
+  border-bottom: 1px solid #21262d;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.navbar-inner {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  height: 56px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.navbar-brand {
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 700;
+  text-decoration: none;
+  letter-spacing: -0.3px;
+}
+
+.navbar-links {
+  display: flex;
+  gap: 0.25rem;
+  height: 100%;
+}
+
+.navbar-links a {
+  color: #8b949e;
+  text-decoration: none;
+  font-size: 0.875rem;
+  padding: 0 0.75rem;
+  display: flex;
+  align-items: center;
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.navbar-links a:hover {
+  color: #f0f6fc;
+}
+
+.navbar-links a.nav-active {
+  color: #f0f6fc;
+  border-bottom-color: #ffffff;
+}

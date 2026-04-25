@@ -1,35 +1,57 @@
-<!-- user-list.component.html -->
-<div class="container py-4">
-  <h1 class="mb-4">Usuarios GitHub</h1>
+<div class="page-container">
+  <div class="page-header">
+    <h1>Team Directory</h1>
+    <p class="page-subtitle">Manage and discover team members across the organization.</p>
+  </div>
 
   @if (loading) {
-    <div class="text-center py-5">
-      <div class="spinner-border text-primary" role="status"></div>
+    <div class="loading-state">
+      <div class="spinner"></div>
     </div>
   }
 
   @if (error) {
-    <div class="alert alert-danger">Error al cargar los usuarios.</div>
+    <div class="alert-error">Error al cargar los usuarios.</div>
   }
 
   @if (!loading && !error) {
-    <div class="row row-cols-1 row-cols-md-3 row-cols-lg-5 g-4">
-      @for (user of users; track user.id) {
-        <div class="col">
-          <div class="user-card" (click)="selectUser(user)"
-               [class.selected]="selectedUser?.id === user.id">
-            <img [src]="user.avatarUrl" [alt]="user.name" class="user-avatar"/>
-            <p class="user-name">{{ user.name }}</p>
-            <p class="user-username text-muted">@{{ user.username }}</p>
-            <span class="badge bg-secondary">{{ user.role }}</span>
-          </div>
+    <!-- Grid de usuarios -->
+    <div class="users-grid">
+      @for (user of visibleUsers; track user.id) {
+        <div class="user-card" (click)="selectUser(user)"
+             [class.user-card--selected]="selectedUser?.id === user.id">
+
+          @if (selectedUser?.id === user.id) {
+            <div class="user-card__check">
+              <svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12">
+                <path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.75.75 0 0 1 1.06-1.06L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"/>
+              </svg>
+            </div>
+          }
+
+          <img [src]="user.avatarUrl" [alt]="user.name" class="user-card__avatar"/>
+          <p class="user-card__name">{{ user.name }}</p>
+          <p class="user-card__username">@{{ user.username }}</p>
+          <span class="user-card__badge">{{ user.role }}</span>
         </div>
       }
     </div>
 
-    <!-- Punto 2: detalle debajo del listado via @Input -->
+    <!-- Detalle del usuario (Punto 2 - @Input) -->
     @if (selectedUser) {
       <app-user-detail [user]="selectedUser" />
+    }
+
+    <!-- Cargar más -->
+    @if (visibleUsers.length < users.length) {
+      <div class="load-more">
+        <p class="load-more__text">
+          Showing {{ visibleUsers.length }} of {{ users.length }} users
+        </p>
+        <button class="btn-load-more" (click)="loadMore()">
+          Cargar más datos
+        </button>
+      </div>
     }
   }
 </div>

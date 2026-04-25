@@ -12,21 +12,28 @@ import { UserService } from '../user.service';
 export class UserListComponent implements OnInit {
 
   users: User[] = [];
+  visibleUsers: User[] = [];
   selectedUser: User | null = null;
   loading = true;
   error = false;
-  
+  private pageSize = 5;
+
   private userService = inject(UserService);
 
   ngOnInit() {
     this.userService.getUsers().subscribe({
-      next: (data) => {this.users = data; this.loading = false},
+      next: (data) => {this.users = data; this.visibleUsers = data.slice(0, this.pageSize) ; this.loading = false},
       error: () => {this.error = true; this.loading = false}
     });
   }
 
   selectUser(user: User): void {
     this.selectedUser = this.selectedUser?.id ? null: user;
+  }
+
+  loadMore(): void {
+    const current = this.visibleUsers.length
+    this.visibleUsers = this.users.slice(0, current + this.pageSize)
   }
 
 }
